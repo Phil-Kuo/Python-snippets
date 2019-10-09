@@ -97,11 +97,18 @@ class larCalc(object):
         y = np.zeros((5, self.Nt))
         y[:,0] = y0 # 初值        
         
-        for i in range(self.Nt)
-            k1 = self.dynamicEqs(y[:,i])
-            k2 = self.dynamicEqs(y[:,i] + self.dt * k1/2)
-            k3 = self.dynamicEqs(y[:,i] + self.dt * k2/2)
-            k4 = self.dynamicEqs(y[:,i] + self.dt * k3)
+        for i in range(1, self.Nt+1):
+            for j in range(5):
+            k1 = self.dynamicEqs(P[i-1], D[i-1], m[i-1], Vm[i-1], theta[i-1], Sth[i-1], Sps[i-1], q[i-1], r[i-1])
+            k2 = self.dynamicEqs(P[i-1] + self.dt * k1/2, D[i-1] + self.dt * k1/2, m[i-1] + self.dt * k1/2, Vm[i-1] + self.dt * k1/2, \
+            theta[i-1] + self.dt * k1/2, Sth[i-1] + self.dt * k1/2, Sps[i-1] + self.dt * k1/2, q[i-1] + self.dt * k1/2, \
+            r[i-1] + self.dt * k1/2 + self.dt * k1/2)
+            k3 = self.dynamicEqs(P[i-1] + self.dt * k2/2, D[i-1] + self.dt * k2/2, m[i-1] + self.dt * k2/2, Vm[i-1] + self.dt * k2/2, \
+            theta[i-1] + self.dt * k2/2, Sth[i-1] + self.dt * k2/2, Sps[i-1] + self.dt * k2/2, q[i-1] + self.dt * k2/2, \
+            r[i-1] + self.dt * k2/2 + self.dt * k2/2)
+            k4 = self.dynamicEqs(P[i-1] + self.dt * k3, D[i-1] + self.dt * k3, m[i-1] + self.dt * k3, Vm[i-1] + self.dt * k3, \
+            theta[i-1] + self.dt * k3, Sth[i-1] + self.dt * k3, Sps[i-1] + self.dt * k3, q[i-1] + self.dt * k3, \
+            r[i-1] + self.dt * k3 + self.dt * k3)
             y[:,i+1] = y[:,i] + self.dt/6 * (k1 + 2*k2 +2*k3 +k4)            
         return y
 
